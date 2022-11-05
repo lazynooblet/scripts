@@ -10,3 +10,5 @@ I spent some time this learning phpIPAM's REST API and writing a short bash scri
 - The script won’t add new addresses, only update existing ones.
 - The script will check local interface ips as well (as these aren’t in ARP)
 - The script requires “iproute2”, “curl” and “jq” (Command-line JSON processor).
+
+![image](https://user-images.githubusercontent.com/1316058/200133773-cc1ff9ed-56eb-4b67-82c3-45bfa46f608d.png)
