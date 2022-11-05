@@ -1,6 +1,6 @@
 # phpipam-update-mac-from-arp.sh
 
-I spent some time this learning phpIPAM's REST API and writing a short bash script to update phpIPAM’s mac field.
+I spent some time learning phpIPAM's REST API and writing a short bash script to update phpIPAM’s mac field.
 
 - The script will need the username and password of a user that has write permission to the addresses you want to update.
 - You will need to create an api app, as described in the documentation.
