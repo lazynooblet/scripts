@@ -10,7 +10,7 @@ INVALIDTAGS=("3" "4")
 
 echo "[INFO] Fetching token"
 TOKEN=$(curl -X POST --user ${USER}:${PASS} ${URL}/${APP}/user/ -s | jq --raw-output .data.token)
-if [ $? -ne 0 ]; then
+if [ "$?" != "0" ]; then
     echo "[FAIL] Error fetching token from PHPIPAM" 1>&2
     exit 1
 fi
@@ -21,7 +21,7 @@ fi
 
 echo "[INFO] Fetching token expiry (token test)"
 EXPIRES=$(curl -X GET --header "token: ${TOKEN}" ${URL}/${APP}/user/ -s | jq --raw-output .data.expires)
-if [ $? -ne 0 ]; then
+if [ "$?" != "0" ]; then
     echo "[FAIL] Error fetching token expiry from PHPIPAM" 1>&2
     exit 1
 fi
@@ -32,7 +32,7 @@ fi
 
 echo "[INFO] Fetching subnet id"
 SUBNETID=$(curl -X GET --header "token: ${TOKEN}" ${URL}/${APP}/subnets/search/${SUBNET} -s | jq --raw-output .data[0].id)
-if [ $? -ne 0 ]; then
+if [ "$?" != "0" ]; then
     echo "[FAIL] Error fetching subnet id from PHPIPAM" 1>&2
     exit 1
 fi
@@ -46,7 +46,7 @@ _update() {
     mac=${2}
 
     IPID=$(curl -X GET --header "token: ${TOKEN}" ${URL}/${APP}/addresses/${ip}/${SUBNETID} -s | jq --raw-output .data.id)
-    if [ $? -ne 0 ]; then
+    if [ "$?" != "0" ]; then
         echo "[FAIL] Error fetching ip id from PHPIPAM" 1>&2
         exit 1
     fi
@@ -57,7 +57,7 @@ _update() {
 
     NOUPDATE=0
     JSON=$(curl -X GET --header "token: ${TOKEN}" ${URL}/${APP}/addresses/${IPID}/ -s)
-    if [ $? -ne 0 ]; then
+    if [ "$?" != "0" ]; then
         echo "[FAIL] Error fetching ip data from PHPIPAM" 1>&2
         exit 1
     fi
@@ -80,7 +80,7 @@ _update() {
     fi
 
     JSON=$(curl -X PATCH --header "token: ${TOKEN}" ${URL}/${APP}/addresses/${IPID}/ -s --data "mac=${mac}")
-    if [ $? -ne 0 ]; then
+    if [ "$?" != "0" ]; then
         echo "[FAIL] Error updating ip mac on PHPIPAM" 1>&2
         exit 1
     fi
@@ -120,14 +120,14 @@ while read a b c d e; do
     _update ${ip} ${mac}
 
 done < <(arp -an -i ${INTERFACE})
-if [ $? -ne 0 ]; then
+if [ "$?" != "0" ]; then
     echo "[FAIL] Error running arp" 1>&2
     exit 1
 fi
 
 # get json output from ip for local interfaces
 IPJSON=$(ip -j a show ${INTERFACE})
-if [ $? -ne 0 ]; then
+if [ "$?" != "0" ]; then
     echo "[FAIL] Error running ip a show" 1>&2
     exit 1
 fi
@@ -151,7 +151,7 @@ fi
 
 
 JSON=$(curl -X DELETE --header "token: ${TOKEN}" ${URL}/${APP}/user/ -s)
-if [ $? -ne 0 ]; then
+if [ "$?" != "0" ]; then
     echo "[FAIL] Error removing token" 1>&2
     exit 1
 fi
